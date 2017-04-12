@@ -1,0 +1,12 @@
+version: 2
+jobs:
+  build:
+    working_directory: /repo
+    docker:
+      - image: atsnngs/force-com:latest
+    steps:
+      - checkout
+      - run:
+          command: rm -rf /src /wsdl &&  mv /repo/src /src && mv /repo/wsdl /wsdl
+      - run:
+          command: export DEPLOY=$([[ $CIRCLE_BRANCH == 'master' ]] && echo 1 || true); /entrypoint/run.sh
